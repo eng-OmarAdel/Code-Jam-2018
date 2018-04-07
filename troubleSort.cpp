@@ -5,33 +5,35 @@
 
 using namespace std;
 
-void troubleSort(vector<unsigned int>::iterator it1, vector<unsigned int>::iterator it2)
+void troubleSort(vector<unsigned int>& v, int size)
 {
-	for (auto itOuter = it1; itOuter != it2-2; itOuter++)
+	for (auto itOuter = 0; itOuter < size-2; itOuter++)
 	{
-		for (auto itEven = it1; itEven != it2-1; itEven +=2)
+		for (auto itEven = 0; itEven < size-1; itEven +=2)
 		{
-			if ((*itEven) > (*(itEven +2)))
-				swap(*itEven, *(itEven +2));
+			if (v[itEven] > v[itEven +2])
+				swap(v[itEven], v[itEven +2]);
 		}
-		for (auto itOdd = it1+1; itOdd != it2 - 2 ; itOdd += 2)
+		for (auto itOdd = 1; itOdd < size - 2 ; itOdd += 2)
 		{
-			if ((*itOdd) > (*(itOdd + 2)))
-				swap(*itOdd, *(itOdd + 2));
+			if (v[itOdd] > v[itOdd + 2])
+				swap(v[itOdd], v[itOdd + 2]);
 		}
 	}
 }
 
 int compare(vector<unsigned int> v1, vector<unsigned int> v2)
 {
-	if (v1 == v2)
-		return -1;
-	int i;
+	int i,flag=1;
 	for (i = 0; i < v1.size(); i++)
 	{
 		if (v1[i] > v2[i])
+		{
 			break;
+			flag = 0;
+		}
 	}
+	if (flag == 1) return -1;
 	return i;
 }
 
@@ -48,7 +50,7 @@ int main()
 		for (int i = 0; i < numberOfValues; i++)
 			cin >> values[i];
 		vector<unsigned int> troubleValues = values;
-		troubleSort(troubleValues.begin(), troubleValues.end());
+		troubleSort(troubleValues, numberOfValues);
 		sort(values.begin(), values.end());
 		int index = compare(troubleValues, values);
 		if (index == -1)
